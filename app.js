@@ -7,9 +7,20 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Hata yakalama middleware'i
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).render('404', { 
+    title: 'Sunucu Hatası',
+    personalInfo: personalInfo,
+    error: process.env.NODE_ENV === 'development' ? err.message : 'Bir hata oluştu'
+  });
+});
+
 // Middleware
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -133,64 +144,92 @@ const projects = [
 ];
 
 // Routes
-app.get('/', (req, res) => {
-  res.render('index', { 
-    title: 'Ana Sayfa',
-    projects: projects,
-    personalInfo: personalInfo
-  });
+app.get('/', (req, res, next) => {
+  try {
+    res.render('index', { 
+      title: 'Ana Sayfa',
+      projects: projects,
+      personalInfo: personalInfo
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.get('/portfolio', (req, res) => {
-  res.render('portfolio', { 
-    title: 'Portfolyo',
-    projects: projects,
-    personalInfo: personalInfo
-  });
+app.get('/portfolio', (req, res, next) => {
+  try {
+    res.render('portfolio', { 
+      title: 'Portfolyo',
+      projects: projects,
+      personalInfo: personalInfo
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.get('/about', (req, res) => {
-  res.render('about', { 
-    title: 'Hakkımda',
-    personalInfo: personalInfo
-  });
+app.get('/about', (req, res, next) => {
+  try {
+    res.render('about', { 
+      title: 'Hakkımda',
+      personalInfo: personalInfo
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.get('/skills', (req, res) => {
-  res.render('skills', { 
-    title: 'Yeteneklerim',
-    personalInfo: personalInfo
-  });
+app.get('/skills', (req, res, next) => {
+  try {
+    res.render('skills', { 
+      title: 'Yeteneklerim',
+      personalInfo: personalInfo
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
-app.get('/contact', (req, res) => {
-  res.render('contact', { 
-    title: 'İletişim',
-    personalInfo: personalInfo
-  });
+app.get('/contact', (req, res, next) => {
+  try {
+    res.render('contact', { 
+      title: 'İletişim',
+      personalInfo: personalInfo
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // İletişim formu gönderimi
-app.post('/contact', (req, res) => {
-  const { name, email, message } = req.body;
-  // Burada e-posta gönderme işlemi yapılabilir
-  res.json({ success: true });
+app.post('/contact', (req, res, next) => {
+  try {
+    const { name, email, message } = req.body;
+    // Burada e-posta gönderme işlemi yapılabilir
+    res.json({ success: true });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Proje detay sayfası route'u
-app.get('/projects/:projectId', (req, res) => {
-  const project = projects.find(p => p.id === parseInt(req.params.projectId));
-  if (!project) {
-    return res.status(404).render('404', { 
-      title: 'Sayfa Bulunamadı',
+app.get('/projects/:projectId', (req, res, next) => {
+  try {
+    const project = projects.find(p => p.id === parseInt(req.params.projectId));
+    if (!project) {
+      return res.status(404).render('404', { 
+        title: 'Sayfa Bulunamadı',
+        personalInfo: personalInfo
+      });
+    }
+    res.render('project-detail', { 
+      title: project.title,
+      project: project,
       personalInfo: personalInfo
     });
+  } catch (error) {
+    next(error);
   }
-  res.render('project-detail', { 
-    title: project.title,
-    project: project,
-    personalInfo: personalInfo
-  });
 });
 
 // 404 sayfası
