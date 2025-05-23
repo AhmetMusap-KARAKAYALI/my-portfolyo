@@ -21,7 +21,15 @@ app.use((err, req, res, next) => {
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Statik dosyalar için mutlak yol
+const publicPath = path.join(__dirname, 'public');
+app.use(express.static(publicPath));
+app.use('/images', express.static(path.join(publicPath, 'images')));
+app.use('/css', express.static(path.join(publicPath, 'css')));
+app.use('/js', express.static(path.join(publicPath, 'js')));
+app.use('/certificates', express.static(path.join(publicPath, 'certificates')));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
