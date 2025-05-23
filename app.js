@@ -14,6 +14,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// CORS ayarları
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 // Kişisel bilgiler
 const personalInfo = {
     name: "Ahmet Musap KARAKAYALI",
@@ -194,8 +202,10 @@ app.use((req, res) => {
 });
 
 // Port dinleme
-const server = app.listen(port, () => {
-  const serverUrl = `http://localhost:${port}`;
-  console.log(`Server is running at ${serverUrl}`);
-  console.log('Press Ctrl+C to stop the server');
-}); 
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
+}
+
+module.exports = app; 
