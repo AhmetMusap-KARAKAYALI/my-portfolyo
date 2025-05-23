@@ -1,0 +1,55 @@
+<section class="py-16 bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-white mb-4">Hakkımda</h2>
+            <p class="text-xl text-gray-300"><%= personalInfo.description %></p>
+        </div>
+
+        <!-- Education -->
+        <div class="mb-12">
+            <h3 class="text-2xl font-semibold text-white mb-6">Eğitim</h3>
+            <div class="space-y-6">
+                <% personalInfo.education.forEach(function(edu) { %>
+                    <div class="bg-gray-800 p-6 rounded-lg transform hover:scale-105 transition-all duration-300">
+                        <h4 class="text-xl font-medium text-white"><%= edu.school %></h4>
+                        <p class="text-gray-300 mt-2"><%= edu.degree %></p>
+                        <p class="text-gray-400 mt-1"><%= edu.year %></p>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="mb-12">
+            <h3 class="text-2xl font-semibold text-white mb-6">Yetenekler</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% personalInfo.skills.forEach(function(skillCategory) { %>
+                    <div class="bg-gray-800 p-6 rounded-lg transform hover:scale-105 transition-all duration-300">
+                        <h4 class="text-xl font-medium text-white mb-4"><%= skillCategory.category %></h4>
+                        <div class="flex flex-wrap gap-2">
+                            <% skillCategory.items.forEach(function(skill) { %>
+                                <span class="px-3 py-1 bg-blue-600 text-white rounded-full text-sm">
+                                    <%= skill %>
+                                </span>
+                            <% }); %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+
+        <!-- Certificates -->
+        <div>
+            <h3 class="text-2xl font-semibold text-white mb-6">Sertifikalar</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <% personalInfo.certificates.forEach(function(cert) { %>
+                    <div class="bg-gray-800 p-6 rounded-lg transform hover:scale-105 transition-all duration-300">
+                        <h4 class="text-xl font-medium text-white"><%= cert.name %></h4>
+                        <p class="text-gray-300 mt-2">Veren: <%= cert.issuer %></p>
+                        <p class="text-gray-400 mt-1">Tarih: <%= cert.date %></p>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</section> 

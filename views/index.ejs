@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/typewriter-effect@2.19.0/dist/core.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
+    <%- include('partials/navbar') %>
+    
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-4 relative overflow-hidden">
+        <!-- Animated background elements -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+            <div class="absolute top-40 right-10 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="text-center">
+                <div class="mb-6 text-4xl md:text-7xl font-bold text-white">
+                    <span class="inline-block">Merhaba, Ben </span>
+                    <span class="inline-block text-blue-400 ml-2 typewriter" data-words='["<%= personalInfo.name %>", "Developer"]'></span>
+                </div>
+
+                <p class="text-xl md:text-2xl text-gray-300 mb-12">
+                    <%= personalInfo.title %>
+                </p>
+
+                <div class="flex justify-center space-x-6 mb-12">
+                    <!-- Social Media Icons -->
+                    <% Object.entries(personalInfo.socialMedia).forEach(([platform, url]) => { %>
+                        <a href="<%= url %>" target="_blank" rel="noopener noreferrer" 
+                           class="transform hover:scale-110 transition-transform duration-200">
+                            <div class="bg-white p-3 rounded-full text-gray-900 hover:-translate-y-1 transition-transform duration-200">
+                                <i class="fab fa-<%= platform.toLowerCase() %> h-6 w-6"></i>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+
+                <div class="flex justify-center space-x-6">
+                    <a href="/portfolio" 
+                       class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-white bg-blue-600 rounded-full hover:bg-blue-500 transition-all duration-300">
+                        <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                        <span class="relative">Portfolyomu Gör</span>
+                    </a>
+                    <a href="/contact"
+                       class="group relative inline-flex items-center justify-center px-8 py-3 overflow-hidden font-medium text-white border-2 border-white rounded-full hover:bg-white hover:text-gray-900 transition-all duration-300">
+                        <span class="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+                        <span class="relative">İletişime Geç</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <%- include('partials/about', { personalInfo }) %>
+
+    <!-- Skills Section -->
+    <%- include('partials/skills', { personalInfo }) %>
+
+    <!-- Projects Section -->
+    <%- include('partials/projects', { projects }) %>
+
+    <script>
+        // Typewriter effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const typewriterElement = document.querySelector('.typewriter');
+            const words = JSON.parse(typewriterElement.dataset.words);
+            let currentWord = 0;
+            
+            function typeWord(word) {
+                let i = 0;
+                typewriterElement.textContent = '';
+                const interval = setInterval(() => {
+                    if (i < word.length) {
+                        typewriterElement.textContent += word[i];
+                        i++;
+                    } else {
+                        clearInterval(interval);
+                        setTimeout(deleteWord, 2000);
+                    }
+                }, 100);
+            }
+
+            function deleteWord() {
+                const interval = setInterval(() => {
+                    if (typewriterElement.textContent.length > 0) {
+                        typewriterElement.textContent = typewriterElement.textContent.slice(0, -1);
+                    } else {
+                        clearInterval(interval);
+                        currentWord = (currentWord + 1) % words.length;
+                        setTimeout(() => typeWord(words[currentWord]), 500);
+                    }
+                }, 50);
+            }
+
+            typeWord(words[currentWord]);
+        });
+
+        // Add custom animation classes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin-slow {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            @keyframes reverse-spin {
+                from { transform: rotate(360deg); }
+                to { transform: rotate(0deg); }
+            }
+            .animate-spin-slow {
+                animation: spin-slow 8s linear infinite;
+            }
+            .animate-reverse-spin {
+                animation: reverse-spin 12s linear infinite;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 

@@ -1,0 +1,32 @@
+{
+  "name": "my-portfolyo",
+  "version": "1.0.0",
+  "description": "Kişisel portfolyo websitesi",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@types/node": "^22.15.18",
+    "@types/react": "^19.1.4",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-ejs-layouts": "^2.5.1",
+    "framer-motion": "^12.11.4",
+    "typewriter-effect": "^2.22.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "autoprefixer": "^10.4.15",
+    "nodemon": "^3.1.10",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

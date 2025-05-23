@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
+    <%- include('partials/navbar') %>
+
+    <div class="min-h-screen py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Skills Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-white mb-4">Yeteneklerim</h1>
+                <p class="text-xl text-gray-300">Uzmanlaştığım teknolojiler ve araçlar</p>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-1 gap-8">
+                <% personalInfo.skills.forEach(function(skillGroup) { %>
+                    <div class="bg-gray-800 rounded-lg p-8">
+                        <h2 class="text-2xl font-semibold text-white mb-6"><%= skillGroup.category %></h2>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <% skillGroup.items.forEach(function(skill) { %>
+                                <div class="bg-gray-700 rounded-lg p-4 flex items-center justify-center hover:bg-gray-600 transition-colors duration-300 transform hover:scale-105">
+                                    <span class="text-white font-medium"><%= skill %></span>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+
+            <!-- Additional Skills -->
+            <div class="mt-12 bg-gray-800 rounded-lg p-8">
+                <h2 class="text-2xl font-semibold text-white mb-6">Diğer Yetenekler</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Soft Skills -->
+                    <div>
+                        <h3 class="text-xl font-medium text-white mb-4">Kişisel Yetenekler</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Problem Çözme
+                            </li>
+                            <li class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Takım Çalışması
+                            </li>
+                            <li class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Analitik Düşünme
+                            </li>
+                            <li class="flex items-center text-gray-300">
+                                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                Hızlı Öğrenme
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Languages -->
+                    <div>
+                        <h3 class="text-xl font-medium text-white mb-4">Yabancı Dil</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-300">İngilizce</span>
+                                    <span class="text-gray-400">B2</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-gray-300">Almanca</span>
+                                    <span class="text-gray-400">A2</span>
+                                </div>
+                                <div class="w-full bg-gray-700 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 40%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certificates Section -->
+            <div class="mt-12 bg-gray-800 rounded-lg p-8">
+                <h2 class="text-2xl font-semibold text-white mb-6">Sertifikalar</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <% personalInfo.certificates.forEach(function(cert) { %>
+                        <div class="bg-gray-700 p-6 rounded-lg transform hover:scale-105 transition-all duration-300">
+                            <h3 class="text-lg font-medium text-white"><%= cert.name %></h3>
+                            <p class="text-gray-300 mt-2">Veren: <%= cert.issuer %></p>
+                            <p class="text-gray-400 mt-1">Tarih: <%= cert.date %></p>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add hover effect to skill cards
+        document.querySelectorAll('.bg-gray-700').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('shadow-lg', 'shadow-blue-500/20');
+            });
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('shadow-lg', 'shadow-blue-500/20');
+            });
+        });
+    </script>
+</body>
+</html> 
